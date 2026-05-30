@@ -6,6 +6,7 @@ import {
   ArrowRight,
   CheckCircle2,
   HelpCircle,
+  ListChecks,
   RotateCcw,
   ShieldCheck,
   SlidersHorizontal,
@@ -343,6 +344,8 @@ function SimulatorResult({ impact }: { impact: CreditImpactResult }) {
         />
       </div>
 
+      <DecisionTracePanel impact={impact} />
+
       <div className="mt-6 space-y-4">
         <Callout
           icon={HelpCircle}
@@ -399,6 +402,37 @@ function SimulatorResult({ impact }: { impact: CreditImpactResult }) {
         </Link>
       </div>
     </section>
+  );
+}
+
+function DecisionTracePanel({ impact }: { impact: CreditImpactResult }) {
+  return (
+    <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50/70 p-4">
+      <div className="flex items-center gap-2 text-sm font-black text-[#06130f]">
+        <ListChecks className="h-4 w-4 text-emerald-700" aria-hidden="true" />
+        How the engine thinks
+      </div>
+      <ol className="mt-3 grid gap-2">
+        {impact.decisionTrace.map((step, index) => (
+          <li
+            key={`${step.label}-${index}`}
+            className="grid grid-cols-[1.75rem_1fr] gap-3 rounded-md border border-emerald-100 bg-white px-3 py-3"
+          >
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-700 text-xs font-black text-white">
+              {index + 1}
+            </span>
+            <span>
+              <span className="block text-sm font-black text-[#06130f]">
+                {step.label}
+              </span>
+              <span className="mt-1 block text-sm leading-6 text-slate-600">
+                {step.detail}
+              </span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
 

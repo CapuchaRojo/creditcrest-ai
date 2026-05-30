@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Gauge, PlayCircle } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  ClipboardCheck,
+  FileText,
+  Gauge,
+  PlayCircle,
+} from "lucide-react";
 
 import { FactorBreakdown } from "@/components/FactorBreakdown";
 import { ScenarioCard } from "@/components/ScenarioCard";
@@ -31,7 +38,7 @@ export function CreditDashboard({
         <div className="flex flex-col justify-center">
           <div className="inline-flex w-fit items-center gap-2 rounded-md border border-emerald-200 bg-white px-3 py-1 text-xs font-bold text-emerald-800 shadow-sm">
             <PlayCircle className="h-4 w-4" aria-hidden="true" />
-            Judge Demo Mode
+            2-Minute Judge Demo
           </div>
           <h1 className="mt-5 max-w-3xl text-4xl font-black text-[#06130f] sm:text-5xl">
             CreditCrest AI
@@ -101,22 +108,24 @@ export function CreditDashboard({
       </section>
 
       <section className="border-y border-[#dce5dd] bg-[#06130f]">
-        <div className="mx-auto grid max-w-7xl gap-4 px-4 py-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 py-5 sm:px-6 lg:grid-cols-[0.7fr_1.3fr] lg:px-8">
           <div className="text-white">
             <div className="flex items-center gap-2 text-sm font-bold text-emerald-200">
               <Gauge className="h-4 w-4" aria-hidden="true" />
-              2-Minute Demo Path
+              2-Minute Judge Demo
             </div>
             <p className="mt-2 text-sm leading-6 text-emerald-50">
-              A fast judge flow built around Maya&apos;s highest-signal decision.
+              Four taps show the problem, safer action, plan, and transparent
+              rules.
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {laptopScenario ? (
               <DemoStep
                 number="1"
                 href={`/simulator?scenario=${laptopScenario.id}`}
                 label="Buy $600 laptop"
+                caption="Show 88.7% utilization"
               />
             ) : null}
             {payScenario ? (
@@ -124,9 +133,23 @@ export function CreditDashboard({
                 number="2"
                 href={`/simulator?scenario=${payScenario.id}`}
                 label="Pay $300"
+                caption="Show safer utilization"
               />
             ) : null}
-            <DemoStep number="3" href="/plan" label="Open plan" />
+            <DemoStep
+              number="3"
+              href="/plan"
+              label="Open 30-day plan"
+              caption="Turn advice into action"
+              icon={ClipboardCheck}
+            />
+            <DemoStep
+              number="4"
+              href="/methodology"
+              label="View methodology"
+              caption="Prove the rules are explicit"
+              icon={FileText}
+            />
           </div>
         </div>
       </section>
@@ -186,20 +209,29 @@ function DemoStep({
   number,
   href,
   label,
+  caption,
+  icon: Icon,
 }: {
   number: string;
   href: string;
   label: string;
+  caption: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }) {
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-md border border-emerald-700 bg-white/10 px-3 py-3 text-sm font-bold text-white transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+      className="group flex items-center gap-3 rounded-md border border-emerald-700 bg-white/10 px-3 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
     >
       <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-300 text-[#06130f]">
-        {number}
+        {Icon ? <Icon className="h-4 w-4" aria-hidden="true" /> : number}
       </span>
-      {label}
+      <span className="min-w-0">
+        <span className="block truncate">{label}</span>
+        <span className="mt-0.5 block truncate text-xs font-semibold text-emerald-100">
+          {number}. {caption}
+        </span>
+      </span>
     </Link>
   );
 }

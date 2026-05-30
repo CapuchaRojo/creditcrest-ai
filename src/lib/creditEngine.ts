@@ -80,6 +80,11 @@ export interface FactorImpact {
   detail: string;
 }
 
+export interface DecisionTraceStep {
+  label: string;
+  detail: string;
+}
+
 export interface CreditImpactResult {
   riskLevel: RiskLevel;
   primaryFactor: CreditFactor;
@@ -95,6 +100,7 @@ export interface CreditImpactResult {
   whyItMatters: string;
   confidence: ConfidenceLevel;
   affectedFactors: FactorImpact[];
+  decisionTrace: DecisionTraceStep[];
 }
 
 export interface FactorBreakdownItem {
@@ -137,6 +143,10 @@ function roundPercent(value: number) {
 
 function roundDollars(value: number) {
   return Math.round(value * 100) / 100;
+}
+
+function formatTraceDollars(value: number) {
+  return `$${Math.round(value).toLocaleString("en-US")}`;
 }
 
 function clampMoney(value: number) {
@@ -394,7 +404,107 @@ export function simulateScenario(
     recommendation: generateRecommendation(profile, scenario, impactForCopy),
     whyItMatters: generateWhyItMatters(primaryFactor),
     confidence: calculateConfidence(scenario),
+    decisionTrace: generateDecisionTrace(
+      scenario,
+      impactForCopy,
+      utilizationAssessment,
+    ),
   };
+}
+
+function generateDecisionTrace(
+  scenario: CreditScenario,
+  impact: Pick<
+    CreditImpactResult,
+    | "beforeBalance"
+    | "afterBalance"
+    | "beforeLimit"
+    | "afterLimit"
+    | "afterUtilization"
+    | "riskLevel"
+    | "primaryFactor"
+  >,
+  utilizationAssessment: UtilizationAssessment,
+): DecisionTraceStep[] {
+  const trace: DecisionTraceStep[] = [];
+  const purchaseAmount = clampMoney(scenario.purchaseAmount ?? 0);
+  const paymentAmount = clampMoney(scenario.paymentAmount ?? 0);
+  const creditLimitIncrease = clampMoney(scenario.creditLimitIncrease ?? 0);
+
+  if (scenario.missedPayment || scenario.type === "missPayment") {
+    trace.push({
+      label: "Payment flag",
+      detail: "Missed payment selected = Critical payment history warning.",
+    });
+  } else if (impact.afterBalance > impact.beforeBalance && purchaseAmount > 0) {
+    trace.push({
+      label: "Modeled balance",
+      detail: `${formatTraceDollars(impact.beforeBalance)} balance + ${formatTraceDollars(purchaseAmount)} purchase = ${formatTraceDollars(impact.afterBalance)} modeled balance.`,
+    });
+  } else if (impact.afterBalance < impact.beforeBalance && paymentAmount > 0) {
+    trace.push({
+      label: "Modeled balance",
+      detail: `${formatTraceDollars(impact.beforeBalance)} balance - ${formatTraceDollars(paymentAmount)} payment = ${formatTraceDollars(impact.afterBalance)} modeled balance.`,
+    });
+  } else {
+    trace.push({
+      label: "Modeled balance",
+      detail: `${formatTraceDollars(impact.beforeBalance)} balance remains ${formatTraceDollars(impact.afterBalance)} in the modeled card snapshot.`,
+    });
+  }
+
+  if (creditLimitIncrease > 0) {
+    trace.push({
+      label: "Modeled limit",
+      detail: `${formatTraceDollars(impact.beforeLimit)} limit + ${formatTraceDollars(creditLimitIncrease)} increase = ${formatTraceDollars(impact.afterLimit)} modeled limit.`,
+    });
+  }
+
+  trace.push({
+    label: "Utilization math",
+    detail: `${formatTraceDollars(impact.afterBalance)} / ${formatTraceDollars(impact.afterLimit)} = ${impact.afterUtilization}% utilization.`,
+  });
+
+  trace.push({
+    label: "Threshold rule",
+    detail: `${getUtilizationRuleLabel(utilizationAssessment.band)} utilization = ${utilizationAssessment.band} / ${utilizationAssessment.level} risk.`,
+  });
+
+  if (
+    scenario.newApplication ||
+    scenario.type === "applyForCard" ||
+    scenario.financing ||
+    scenario.type === "financePurchase" ||
+    scenario.hardInquiry
+  ) {
+    trace.push({
+      label: "New-credit rule",
+      detail:
+        "Application, financing, or hard-inquiry input adds new-credit pressure to the modeled result.",
+    });
+  }
+
+  trace.push({
+    label: "Recommendation source",
+    detail: `Recommendation generated from deterministic rules for ${creditFactorLabels[impact.primaryFactor].toLowerCase()}; no score-point estimate is produced.`,
+  });
+
+  return trace;
+}
+
+function getUtilizationRuleLabel(band: UtilizationBand) {
+  switch (band) {
+    case "Excellent":
+      return "Under 10%";
+    case "Good":
+      return "10-29%";
+    case "Caution":
+      return "30-49%";
+    case "High":
+      return "50-74%";
+    case "Critical":
+      return "75%+";
+  }
 }
 
 function getImpactDirection(

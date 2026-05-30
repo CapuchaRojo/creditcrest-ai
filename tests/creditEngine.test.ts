@@ -34,6 +34,9 @@ describe("creditEngine", () => {
     expect(result.riskLevel).toBe("Critical");
     expect(result.primaryFactor).toBe("utilization");
     expect(result.impactDirection).toBe("Significant risk");
+    expect(result.decisionTrace.map((step) => step.detail)).toContain(
+      "$730 balance + $600 purchase = $1,330 modeled balance.",
+    );
   });
 
   it("models a $300 payment as helpful", () => {

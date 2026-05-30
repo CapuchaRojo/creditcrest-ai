@@ -41,6 +41,15 @@ CreditCrest AI gives users a fast simulator that models the likely directional c
 - Local deterministic rules engine
 - Synthetic data and browser localStorage only
 
+## Engineering Notes
+
+- Deterministic TypeScript rules engine
+- Separated business logic and UI
+- Synthetic data only
+- Vitest tests
+- Passed lint, typecheck, tests, and production build
+- Deployed on Vercel: [creditcrest-ai.vercel.app](https://creditcrest-ai.vercel.app/)
+
 ## How To Run Locally
 
 Install dependencies:
@@ -63,6 +72,7 @@ Run checks:
 npm run lint
 npm run typecheck
 npm test
+npm run build
 ```
 
 ## Demo Script for Devpost
