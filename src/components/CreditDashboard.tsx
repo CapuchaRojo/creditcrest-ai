@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,6 +10,7 @@ import {
   FlaskConical,
   Gauge,
   PlayCircle,
+  UserRound,
 } from "lucide-react";
 
 import { FactorBreakdown } from "@/components/FactorBreakdown";
@@ -20,6 +23,7 @@ import {
   type CreditScenario,
 } from "@/lib/creditEngine";
 import { formatCurrency } from "@/lib/format";
+import { useFinancialSnapshotProfile } from "@/lib/useFinancialSnapshot";
 
 export function CreditDashboard({
   profile,
@@ -28,9 +32,14 @@ export function CreditDashboard({
   profile: CreditProfile;
   scenarios: CreditScenario[];
 }) {
-  const utilization = calculateUtilization(profile.currentBalance, profile.creditLimit);
+  const activeProfile = useFinancialSnapshotProfile(profile);
+  const isSnapshot = activeProfile.id === "financial-snapshot";
+  const utilization = calculateUtilization(
+    activeProfile.currentBalance,
+    activeProfile.creditLimit,
+  );
   const displayUtilization = Math.round(utilization);
-  const breakdown = getFactorBreakdown(profile);
+  const breakdown = getFactorBreakdown(activeProfile);
   const laptopScenario = scenarios.find((scenario) => scenario.id === "buy-laptop");
   const payScenario = scenarios.find((scenario) => scenario.id === "pay-300");
 
@@ -75,6 +84,13 @@ export function CreditDashboard({
               <FlaskConical className="h-4 w-4" aria-hidden="true" />
               Open Lending Lab
             </Link>
+            <Link
+              href="/onboarding"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-[#cbd8ce] bg-white px-4 py-3 text-sm font-bold text-[#06130f] shadow-sm transition hover:border-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            >
+              <UserRound className="h-4 w-4" aria-hidden="true" />
+              Create Financial Snapshot
+            </Link>
           </div>
         </div>
 
@@ -82,36 +98,45 @@ export function CreditDashboard({
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-bold uppercase text-emerald-700">
-                Synthetic profile
+                {isSnapshot ? "Local financial snapshot" : "Synthetic profile"}
               </p>
               <h2 className="mt-2 text-2xl font-black text-[#06130f]">
-                {profile.name}, {profile.age}
+                {activeProfile.name}
+                {isSnapshot ? "" : `, ${activeProfile.age}`}
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-600">
-                {profile.persona}
+                {activeProfile.persona}
+              </p>
+              <p className="mt-2 text-xs font-bold text-slate-500">
+                {isSnapshot
+                  ? "Stored only in this browser."
+                  : "Using Maya demo data."}
               </p>
             </div>
             <div className="rounded-md bg-[#eaf7ef] px-3 py-2 text-right">
               <p className="text-xs font-bold text-slate-500">Education band</p>
               <p className="text-lg font-black text-[#06130f]">
-                {profile.estimatedCreditBand}
+                {activeProfile.estimatedCreditBand}
               </p>
             </div>
           </div>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <Metric label="Card limit" value={formatCurrency(profile.creditLimit)} />
+            <Metric
+              label="Card limit"
+              value={formatCurrency(activeProfile.creditLimit)}
+            />
             <Metric
               label="Current balance"
-              value={formatCurrency(profile.currentBalance)}
+              value={formatCurrency(activeProfile.currentBalance)}
             />
             <Metric label="Utilization" value={`${displayUtilization}%`} />
           </div>
 
           <div className="mt-6">
             <UtilizationChart
-              balance={profile.currentBalance}
-              limit={profile.creditLimit}
+              balance={activeProfile.currentBalance}
+              limit={activeProfile.creditLimit}
             />
           </div>
         </div>
@@ -135,7 +160,7 @@ export function CreditDashboard({
                 number="1"
                 href={`/simulator?scenario=${laptopScenario.id}`}
                 label="Buy $600 laptop"
-                caption="Show 88.7% utilization"
+                caption="Show utilization jump"
               />
             ) : null}
             {payScenario ? (
@@ -143,7 +168,7 @@ export function CreditDashboard({
                 number="2"
                 href={`/simulator?scenario=${payScenario.id}`}
                 label="Pay $300"
-                caption="Show safer utilization"
+                caption="Show utilization improvement"
               />
             ) : null}
             <DemoStep
@@ -196,7 +221,7 @@ export function CreditDashboard({
           <div>
             <h2 className="text-2xl font-black text-[#06130f]">Health summary</h2>
             <p className="mt-1 text-sm text-slate-600">
-              Deterministic factor model based on the synthetic Maya profile.
+              Deterministic factor model based on the active learning profile.
             </p>
           </div>
           <BadgeCheck className="hidden h-7 w-7 text-emerald-700 sm:block" />
@@ -224,7 +249,7 @@ export function CreditDashboard({
             <ScenarioCard
               key={scenario.id}
               scenario={scenario}
-              profile={profile}
+              profile={activeProfile}
             />
           ))}
         </div>

@@ -23,6 +23,7 @@ import {
   type SyntheticLoanOffer,
 } from "@/lib/lendingEngine";
 import { formatCurrency, formatCurrencyCents } from "@/lib/format";
+import { useFinancialSnapshotLendingProfile } from "@/lib/useFinancialSnapshot";
 
 export function LendingLab({
   profile,
@@ -31,6 +32,7 @@ export function LendingLab({
   profile: LendingProfile;
   offers: SyntheticLoanOffer[];
 }) {
+  const activeProfile = useFinancialSnapshotLendingProfile(profile);
   const [selectedOfferId, setSelectedOfferId] = useState(
     offers[0]?.id ?? "crest-starter",
   );
@@ -38,9 +40,9 @@ export function LendingLab({
     () =>
       offers.map((offer) => ({
         offer,
-        result: simulateLoanOffer(profile, offer),
+        result: simulateLoanOffer(activeProfile, offer),
       })),
-    [offers, profile],
+    [activeProfile, offers],
   );
   const selected =
     simulations.find((item) => item.offer.id === selectedOfferId) ??
@@ -60,7 +62,7 @@ export function LendingLab({
               Synthetic offers only
             </div>
             <h1 className="mt-5 max-w-3xl text-4xl font-black text-[#06130f] sm:text-5xl">
-              Simulate the loan before Maya signs.
+              Simulate the loan before {activeProfile.name} signs.
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
               Compare synthetic lending paths, monthly payments,
@@ -98,8 +100,9 @@ export function LendingLab({
               </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-slate-600">
-              Maya&apos;s synthetic income is {formatCurrency(profile.estimatedMonthlyIncome)}
-              /month. The app never asks for real income.
+              {activeProfile.name}&apos;s synthetic income estimate is{" "}
+              {formatCurrency(activeProfile.estimatedMonthlyIncome)}/month. The
+              app never verifies income or asks for sensitive identifiers.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

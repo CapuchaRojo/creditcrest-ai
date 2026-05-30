@@ -22,6 +22,7 @@ import {
   type SyntheticLoanOffer,
 } from "@/lib/lendingEngine";
 import { formatCurrency, formatCurrencyCents } from "@/lib/format";
+import { useFinancialSnapshotLendingProfile } from "@/lib/useFinancialSnapshot";
 
 export function CalculatorHub({
   profile,
@@ -30,15 +31,19 @@ export function CalculatorHub({
   profile: LendingProfile;
   offers: SyntheticLoanOffer[];
 }) {
+  const activeProfile = useFinancialSnapshotLendingProfile(profile);
   const [emiInput, setEmiInput] = useState({
     principal: 800,
     annualApr: 18,
     termMonths: 12,
     downPayment: 100,
   });
-  const [paydownInput, setPaydownInput] = useState({
-    currentBalance: profile.currentBalance,
-    creditLimit: profile.creditLimit,
+  const [paydownOverrides, setPaydownOverrides] = useState<{
+    currentBalance?: number;
+    creditLimit?: number;
+    target: string;
+    customTarget: number;
+  }>({
     target: "30",
     customTarget: 15,
   });
@@ -46,15 +51,65 @@ export function CalculatorHub({
     optionAId: "crest-builder-secured",
     optionBId: "crest-fastcash",
   });
-  const [burdenInput, setBurdenInput] = useState({
+  const [burdenOverrides, setBurdenOverrides] = useState<{
+    monthlyPayment: number;
+    syntheticMonthlyIncome?: number;
+  }>({
     monthlyPayment: 150,
-    syntheticMonthlyIncome: profile.estimatedMonthlyIncome,
   });
-  const [limitInput, setLimitInput] = useState({
-    currentBalance: profile.currentBalance,
-    currentLimit: profile.creditLimit,
-    proposedNewLimit: 2500,
-  });
+  const [limitOverrides, setLimitOverrides] = useState<{
+    currentBalance?: number;
+    currentLimit?: number;
+    proposedNewLimit?: number;
+  }>({});
+
+  const paydownInput = useMemo(
+    () => ({
+      currentBalance:
+        paydownOverrides.currentBalance ?? activeProfile.currentBalance,
+      creditLimit: paydownOverrides.creditLimit ?? activeProfile.creditLimit,
+      target: paydownOverrides.target,
+      customTarget: paydownOverrides.customTarget,
+    }),
+    [
+      activeProfile.creditLimit,
+      activeProfile.currentBalance,
+      paydownOverrides.creditLimit,
+      paydownOverrides.currentBalance,
+      paydownOverrides.customTarget,
+      paydownOverrides.target,
+    ],
+  );
+  const burdenInput = useMemo(
+    () => ({
+      monthlyPayment: burdenOverrides.monthlyPayment,
+      syntheticMonthlyIncome:
+        burdenOverrides.syntheticMonthlyIncome ??
+        activeProfile.estimatedMonthlyIncome,
+    }),
+    [
+      activeProfile.estimatedMonthlyIncome,
+      burdenOverrides.monthlyPayment,
+      burdenOverrides.syntheticMonthlyIncome,
+    ],
+  );
+  const limitInput = useMemo(
+    () => ({
+      currentBalance:
+        limitOverrides.currentBalance ?? activeProfile.currentBalance,
+      currentLimit: limitOverrides.currentLimit ?? activeProfile.creditLimit,
+      proposedNewLimit:
+        limitOverrides.proposedNewLimit ??
+        Math.max(activeProfile.creditLimit + 500, 2500),
+    }),
+    [
+      activeProfile.creditLimit,
+      activeProfile.currentBalance,
+      limitOverrides.currentBalance,
+      limitOverrides.currentLimit,
+      limitOverrides.proposedNewLimit,
+    ],
+  );
 
   const emiResult = useMemo(() => calculateEmiScenario(emiInput), [emiInput]);
   const paydownTarget =
@@ -118,7 +173,7 @@ export function CalculatorHub({
               Calculator Hub
             </div>
             <h1 className="mt-5 max-w-3xl text-4xl font-black text-[#06130f] sm:text-5xl">
-              Calculate the borrowing tradeoff before Maya commits.
+              Calculate the borrowing tradeoff before {activeProfile.name} commits.
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
               Educational calculators for EMI, utilization paydown, APR
@@ -133,13 +188,14 @@ export function CalculatorHub({
               </div>
               <div>
                 <h2 className="text-lg font-black text-[#06130f]">
-                  Maya defaults, educational results
+                  Active profile defaults, educational results
                 </h2>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  These tools use Maya&apos;s synthetic profile by default,
-                  including {formatCurrency(profile.estimatedMonthlyIncome)}
-                  /month synthetic income. They do not request real income,
-                  bank credentials, SSNs, or credit bureau data.
+                  These tools use your local Financial Snapshot when saved, or
+                  Maya&apos;s synthetic profile by default, including{" "}
+                  {formatCurrency(activeProfile.estimatedMonthlyIncome)}/month
+                  synthetic income estimate. They do not request bank
+                  credentials, SSNs, or credit bureau data.
                 </p>
               </div>
             </div>
@@ -214,14 +270,17 @@ export function CalculatorHub({
                 label="Current balance"
                 value={paydownInput.currentBalance}
                 onChange={(currentBalance) =>
-                  setPaydownInput((current) => ({ ...current, currentBalance }))
+                  setPaydownOverrides((current) => ({
+                    ...current,
+                    currentBalance,
+                  }))
                 }
               />
               <NumberInput
                 label="Credit limit"
                 value={paydownInput.creditLimit}
                 onChange={(creditLimit) =>
-                  setPaydownInput((current) => ({ ...current, creditLimit }))
+                  setPaydownOverrides((current) => ({ ...current, creditLimit }))
                 }
               />
               <label className="grid gap-2 text-sm font-bold text-[#06130f]">
@@ -229,7 +288,7 @@ export function CalculatorHub({
                 <select
                   value={paydownInput.target}
                   onChange={(event) =>
-                    setPaydownInput((current) => ({
+                    setPaydownOverrides((current) => ({
                       ...current,
                       target: event.target.value,
                     }))
@@ -247,7 +306,10 @@ export function CalculatorHub({
                   suffix="%"
                   value={paydownInput.customTarget}
                   onChange={(customTarget) =>
-                    setPaydownInput((current) => ({ ...current, customTarget }))
+                    setPaydownOverrides((current) => ({
+                      ...current,
+                      customTarget,
+                    }))
                   }
                 />
               ) : null}
@@ -323,14 +385,17 @@ export function CalculatorHub({
                 label="Monthly payment"
                 value={burdenInput.monthlyPayment}
                 onChange={(monthlyPayment) =>
-                  setBurdenInput((current) => ({ ...current, monthlyPayment }))
+                  setBurdenOverrides((current) => ({
+                    ...current,
+                    monthlyPayment,
+                  }))
                 }
               />
               <NumberInput
                 label="Synthetic monthly income"
                 value={burdenInput.syntheticMonthlyIncome}
                 onChange={(syntheticMonthlyIncome) =>
-                  setBurdenInput((current) => ({
+                  setBurdenOverrides((current) => ({
                     ...current,
                     syntheticMonthlyIncome,
                   }))
@@ -363,21 +428,21 @@ export function CalculatorHub({
                 label="Current balance"
                 value={limitInput.currentBalance}
                 onChange={(currentBalance) =>
-                  setLimitInput((current) => ({ ...current, currentBalance }))
+                  setLimitOverrides((current) => ({ ...current, currentBalance }))
                 }
               />
               <NumberInput
                 label="Current limit"
                 value={limitInput.currentLimit}
                 onChange={(currentLimit) =>
-                  setLimitInput((current) => ({ ...current, currentLimit }))
+                  setLimitOverrides((current) => ({ ...current, currentLimit }))
                 }
               />
               <NumberInput
                 label="Proposed new limit"
                 value={limitInput.proposedNewLimit}
                 onChange={(proposedNewLimit) =>
-                  setLimitInput((current) => ({
+                  setLimitOverrides((current) => ({
                     ...current,
                     proposedNewLimit,
                   }))

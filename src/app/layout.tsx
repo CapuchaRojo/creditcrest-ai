@@ -39,6 +39,7 @@ export default function RootLayout({
               <NavLink href="/simulator">Simulator</NavLink>
               <NavLink href="/lending-lab">Lending Lab</NavLink>
               <NavLink href="/calculator-hub">Calculators</NavLink>
+              <NavLink href="/onboarding">Snapshot</NavLink>
               <NavLink href="/plan">Plan</NavLink>
               <NavLink href="/scenarios">Scenarios</NavLink>
               <NavLink href="/methodology">Methodology</NavLink>

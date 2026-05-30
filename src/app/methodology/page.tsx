@@ -170,6 +170,43 @@ export default function MethodologyPage() {
             />
           </div>
         </section>
+
+        <section className="mt-8 rounded-lg border border-[#dce5dd] bg-white p-5 shadow-sm">
+          <h2 className="text-2xl font-black text-[#06130f]">
+            Financial Snapshot methodology
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Financial Snapshot is optional local onboarding for educational
+            personalization. It replaces Maya&apos;s demo defaults with rounded,
+            non-sensitive inputs stored only in the user&apos;s browser.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Rule
+              label="Local-only storage"
+              value="Snapshots are saved in browser localStorage and can be deleted from the onboarding page."
+            />
+            <Rule
+              label="Non-sensitive inputs"
+              value="The flow asks for nickname, rounded income estimate, debt obligations, card balance, card limit, inquiries, missed-payment range, account age, and goal."
+            />
+            <Rule
+              label="Explicit exclusions"
+              value="It does not collect SSNs, account numbers, full birth dates, bank credentials, bureau credentials, documents, or lender application data."
+            />
+            <Rule
+              label="Profile conversion"
+              value="The snapshot is converted into the same typed credit and lending profile shapes used by the deterministic engines."
+            />
+            <Rule
+              label="Maya fallback"
+              value="If no valid snapshot exists, every page uses the synthetic Maya demo profile."
+            />
+            <Rule
+              label="Education boundaries"
+              value="Snapshot results remain educational only, with no financial advice, official score prediction, bureau data, or lender matching."
+            />
+          </div>
+        </section>
       </section>
     </main>
   );

@@ -79,7 +79,7 @@ export const prebuiltScenarios: CreditScenario[] = [
     purchaseAmount: 600,
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
-    description: "Maya puts a needed laptop on her current credit card.",
+    description: "The learner puts a needed laptop on the current credit card.",
   },
   {
     id: "pay-300",
@@ -88,7 +88,7 @@ export const prebuiltScenarios: CreditScenario[] = [
     paymentAmount: 300,
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
-    description: "Maya makes a larger payment before adding any new spending.",
+    description: "The learner makes a larger payment before adding new spending.",
   },
   {
     id: "store-card",
@@ -97,7 +97,7 @@ export const prebuiltScenarios: CreditScenario[] = [
     newApplication: true,
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
-    description: "Maya considers a retail card for a checkout discount.",
+    description: "The learner considers a retail card for a checkout discount.",
   },
   {
     id: "miss-payment",
@@ -106,7 +106,7 @@ export const prebuiltScenarios: CreditScenario[] = [
     missedPayment: true,
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
-    description: "Maya skips this month's due date.",
+    description: "The learner skips this month's due date.",
   },
   {
     id: "limit-increase",
@@ -116,7 +116,7 @@ export const prebuiltScenarios: CreditScenario[] = [
     hardInquiry: false,
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
-    description: "Maya asks whether her issuer can raise the limit with no hard pull.",
+    description: "The learner asks whether the issuer can raise the limit with no hard pull.",
   },
   {
     id: "finance-phone",
@@ -128,7 +128,7 @@ export const prebuiltScenarios: CreditScenario[] = [
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
     description:
-      "Maya considers financing a phone. Lending Lab compares synthetic EMI, APR, and approval-readiness paths.",
+      "The learner considers financing a phone. Lending Lab compares synthetic EMI, APR, and approval-readiness paths.",
   },
 ];
 

@@ -23,6 +23,7 @@ import {
 } from "@/lib/creditEngine";
 import { getScenarioById, prebuiltScenarios } from "@/lib/demoData";
 import { formatCurrency } from "@/lib/format";
+import { useFinancialSnapshotProfile } from "@/lib/useFinancialSnapshot";
 
 type SimulatorForm = Required<
   Pick<CreditScenario, "title" | "type" | "currentBalance" | "creditLimit">
@@ -59,8 +60,19 @@ export function DecisionSimulator({
   profile: CreditProfile;
   initialScenarioId?: string | null;
 }) {
-  const [form, setForm] = useState<SimulatorForm>(() =>
-    hydrateScenario(profile, getScenarioById(initialScenarioId)),
+  const activeProfile = useFinancialSnapshotProfile(profile);
+  const [selectedScenarioId, setSelectedScenarioId] = useState(
+    initialScenarioId ?? "custom",
+  );
+  const [overrides, setOverrides] = useState<Partial<SimulatorForm>>({});
+  const selectedScenario = getScenarioById(selectedScenarioId);
+  const baseForm = useMemo(
+    () => hydrateScenario(activeProfile, selectedScenario),
+    [activeProfile, selectedScenario],
+  );
+  const form = useMemo<SimulatorForm>(
+    () => ({ ...baseForm, ...overrides }),
+    [baseForm, overrides],
   );
 
   useEffect(() => {
@@ -69,22 +81,23 @@ export function DecisionSimulator({
 
   const scenario = useMemo<CreditScenario>(() => ({ ...form }), [form]);
   const impact = useMemo(
-    () => simulateScenario(profile, scenario),
-    [profile, scenario],
+    () => simulateScenario(activeProfile, scenario),
+    [activeProfile, scenario],
   );
 
   function loadScenario(nextScenario: CreditScenario | undefined) {
-    setForm(hydrateScenario(profile, nextScenario));
+    setSelectedScenarioId(nextScenario?.id ?? "custom");
+    setOverrides({});
   }
 
   function updateForm<Key extends keyof SimulatorForm>(
     key: Key,
     value: SimulatorForm[Key],
   ) {
-    setForm((current) => ({
+    setOverrides((current) => ({
       ...current,
       id: "custom-live",
-      title: current.title === "Custom scenario" ? current.title : "Custom scenario",
+      title: "Custom scenario",
       [key]: value,
     }));
   }
@@ -99,7 +112,7 @@ export function DecisionSimulator({
               Decision Simulator
             </div>
             <h1 className="mt-4 text-3xl font-black text-[#06130f] sm:text-4xl">
-              Model the move before Maya makes it.
+              Model the move before {activeProfile.name} makes it.
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
               This simulator uses transparent local rules. It gives directional
@@ -112,7 +125,7 @@ export function DecisionSimulator({
             className="inline-flex items-center justify-center gap-2 rounded-md border border-[#cbd8ce] bg-white px-4 py-3 text-sm font-bold text-[#06130f] shadow-sm transition hover:border-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             <RotateCcw className="h-4 w-4" aria-hidden="true" />
-            Reset to Maya
+            Reset defaults
           </button>
         </div>
 
@@ -237,8 +250,8 @@ function hydrateScenario(
     type: scenario?.type ?? "buyWithCard",
     purchaseAmount: scenario?.purchaseAmount ?? 0,
     paymentAmount: scenario?.paymentAmount ?? 0,
-    currentBalance: scenario?.currentBalance ?? profile.currentBalance,
-    creditLimit: scenario?.creditLimit ?? profile.creditLimit,
+    currentBalance: profile.currentBalance,
+    creditLimit: profile.creditLimit,
     newApplication: scenario?.newApplication ?? false,
     missedPayment: scenario?.missedPayment ?? false,
     financing: scenario?.financing ?? false,

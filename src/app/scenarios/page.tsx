@@ -1,7 +1,12 @@
+"use client";
+
 import { ScenarioCard } from "@/components/ScenarioCard";
 import { mayaProfile, prebuiltScenarios } from "@/lib/demoData";
+import { useFinancialSnapshotProfile } from "@/lib/useFinancialSnapshot";
 
 export default function ScenariosPage() {
+  const activeProfile = useFinancialSnapshotProfile(mayaProfile);
+
   return (
     <main className="min-h-screen bg-[#f6f8f5]">
       <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
@@ -15,7 +20,7 @@ export default function ScenariosPage() {
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
               Each scenario opens the simulator with deterministic inputs and a
-              plain-English result for the guided demo path.
+              plain-English result for the active learning profile.
             </p>
           </div>
         </div>
@@ -24,7 +29,7 @@ export default function ScenariosPage() {
             <ScenarioCard
               key={scenario.id}
               scenario={scenario}
-              profile={mayaProfile}
+              profile={activeProfile}
             />
           ))}
         </div>

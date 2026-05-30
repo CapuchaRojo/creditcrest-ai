@@ -45,7 +45,12 @@ export function ScenarioCard({
   scenario: CreditScenario;
   profile: CreditProfile;
 }) {
-  const impact = simulateScenario(profile, scenario);
+  const scenarioForProfile = {
+    ...scenario,
+    currentBalance: profile.currentBalance,
+    creditLimit: profile.creditLimit,
+  };
+  const impact = simulateScenario(profile, scenarioForProfile);
   const Icon = scenarioIcons[scenario.type];
   const isLendingScenario = scenario.id === "finance-phone";
   const href = isLendingScenario

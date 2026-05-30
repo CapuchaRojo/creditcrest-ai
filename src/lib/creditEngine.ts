@@ -642,7 +642,25 @@ export function generateThirtyDayPlan(
   profile: CreditProfile,
 ): ThirtyDayPlanWeek[] {
   const targetThirtyPercent = Math.floor(profile.creditLimit * 0.3);
-  const paydownToThirty = Math.max(0, profile.currentBalance - targetThirtyPercent);
+  const paydownToThirty = Math.max(
+    0,
+    Math.ceil(profile.currentBalance - targetThirtyPercent),
+  );
+  const name = profile.name;
+  const paymentDetail =
+    profile.latePayments.count === 0
+      ? `${name} has no missed payments in the active learning profile, so the goal is to keep the clean streak protected.`
+      : `${name} has ${profile.latePayments.count} missed payment ${
+          profile.latePayments.count === 1 ? "event" : "events"
+        } in the active learning profile, so the next few on-time months matter.`;
+  const utilizationTarget =
+    paydownToThirty > 0
+      ? `Pay at least $${paydownToThirty} to move below 30% utilization`
+      : "Keep the reported balance below 30% utilization";
+  const utilizationAction =
+    paydownToThirty > 0
+      ? `Schedule a $${paydownToThirty} payment if cash flow allows.`
+      : "Avoid adding new card spending before the next statement closes.";
 
   return [
     {
@@ -650,11 +668,11 @@ export function generateThirtyDayPlan(
       week: 1,
       title: "Lower visible utilization",
       factor: "utilization",
-      target: `Pay at least $${paydownToThirty} to move below 30% utilization`,
+      target: utilizationTarget,
       detail:
         "Bring the card balance closer to a healthier reporting range before making optional purchases.",
       actions: [
-        `Schedule a $${paydownToThirty} payment if cash flow allows.`,
+        utilizationAction,
         "Pause non-essential card spending until the next statement closes.",
         "Use debit for daily purchases while utilization resets.",
       ],
@@ -665,8 +683,7 @@ export function generateThirtyDayPlan(
       title: "Protect every due date",
       factor: "paymentHistory",
       target: "Set autopay and one backup reminder",
-      detail:
-        "Maya has one late payment from 10 months ago, so the next few on-time months matter.",
+      detail: paymentDetail,
       actions: [
         "Turn on autopay for at least the minimum payment.",
         "Add a calendar reminder three days before the due date.",
@@ -680,7 +697,9 @@ export function generateThirtyDayPlan(
       factor: "newCredit",
       target: "No new hard inquiries this month",
       detail:
-        "A young file with one recent inquiry benefits from a quiet month of no new applications.",
+        profile.recentInquiries > 0
+          ? "A profile with recent inquiries benefits from a quiet month of no new applications."
+          : "A quiet application month helps the file age without adding avoidable new-credit pressure.",
       actions: [
         "Skip store cards and checkout financing unless it is essential.",
         "Use soft-pull prequalification if comparing options.",
@@ -767,7 +786,7 @@ export function getFactorBreakdown(
           ? "Quiet application history"
           : "Recent inquiry visible",
       detail:
-        "Additional applications can add pressure while Maya's credit file is still young.",
+        `Additional applications can add pressure while ${profile.name}'s credit file is still young.`,
       metric: `${profile.recentInquiries} recent inquiry`,
     },
     {

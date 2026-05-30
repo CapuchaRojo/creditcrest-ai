@@ -8,7 +8,7 @@
 
 CreditCrest AI is a production-oriented educational prototype: a consumer credit simulator that helps early credit builders understand how purchases, payments, applications, financing, utilization changes, missed payments, and synthetic borrowing paths may affect their credit-building behavior.
 
-It does **not** calculate an official credit score and does **not** provide financial advice. It uses synthetic demo data and deterministic educational rules.
+It does **not** calculate an official credit score and does **not** provide financial advice. It uses synthetic demo data, optional browser-only Financial Snapshots, and deterministic educational rules.
 
 ## Problem
 
@@ -16,11 +16,12 @@ Most credit apps explain what already happened after a statement closes, an inqu
 
 ## Solution
 
-CreditCrest AI gives users a fast simulator that models the likely directional credit impact of a decision before they act. The guided demo focuses on Maya, a synthetic 22-year-old student profile with 49% utilization, one recent inquiry, a young credit file, one late payment from 10 months ago, and synthetic monthly income of $2,400 for lending simulations.
+CreditCrest AI gives users a fast simulator that models the likely directional credit impact of a decision before they act. The default learning path focuses on Maya, a synthetic 22-year-old student profile with 49% utilization, one recent inquiry, a young credit file, one late payment from 10 months ago, and synthetic monthly income of $2,400 for lending simulations. Users can optionally create a local Financial Snapshot with rounded, non-sensitive inputs to personalize the educational defaults.
 
 ## Features
 
 - Mobile-first dashboard for the Maya synthetic profile
+- Optional Financial Snapshot onboarding stored only in browser localStorage
 - Health summary across payment history, utilization, new credit, credit age, and credit mix
 - Recharts utilization visualization
 - Decision simulator with live inputs and deterministic recommendations
@@ -34,7 +35,7 @@ CreditCrest AI gives users a fast simulator that models the likely directional c
 - 30-day credit builder plan with local checklist progress
 - About / compliance / methodology page
 - Clear educational disclaimers and no sensitive-data collection
-- Unit tests for the credit and lending rules engines
+- Unit tests for the credit, lending, calculator, and snapshot logic
 
 ## Product Ecosystem
 
@@ -93,10 +94,11 @@ npm run build
 2. Show 49% utilization.
 3. Click "Buy a $600 laptop today" and show Critical risk.
 4. Click "Pay $300 toward balance" and show utilization improves.
-5. Open Lending Lab.
-6. Compare Crest Starter vs Crest Builder Secured vs Crest FastCash.
-7. Show EMI/monthly payment, total repayment, approval-readiness, and borrower timeline.
-8. Emphasize: "CreditCrest AI turns borrowing into a transparent educational simulation before the user signs."
+5. Optional: open Financial Snapshot and show that personalization is stored only in this browser.
+6. Open Lending Lab.
+7. Compare Crest Starter vs Crest Builder Secured vs Crest FastCash.
+8. Show EMI/monthly payment, total repayment, approval-readiness, and borrower timeline.
+9. Emphasize: "CreditCrest AI turns borrowing into a transparent educational simulation before the user signs."
 
 ## Architecture Overview
 
@@ -104,6 +106,7 @@ npm run build
 src/
   app/
     page.tsx              Dashboard
+    onboarding/page.tsx   Local Financial Snapshot onboarding
     lending-lab/page.tsx  Synthetic lending simulator
     calculator-hub/page.tsx
     simulator/page.tsx    Interactive decision simulator
@@ -118,6 +121,7 @@ src/
     DecisionSimulator.tsx
     EducationUnlockCard.tsx
     FactorBreakdown.tsx
+    FinancialSnapshotOnboarding.tsx
     LendingLab.tsx
     LoanOfferCard.tsx
     LoanTimeline.tsx
@@ -127,14 +131,17 @@ src/
   lib/
     creditEngine.ts       Deterministic credit rules engine
     lendingEngine.ts      Synthetic loan math and readiness engine
+    financialSnapshot.ts  Local snapshot parsing, storage, and conversion
+    useFinancialSnapshot.ts
     demoData.ts           Synthetic Maya profile, scenarios, and offers
     format.ts             Formatting helpers
 tests/
   creditEngine.test.ts
+  financialSnapshot.test.ts
   lendingEngine.test.ts
 ```
 
-The app keeps business logic separate from the UI. `src/lib/creditEngine.ts` owns the typed credit rules, factor breakdown, recommendations, and 30-day plan generation. `src/lib/lendingEngine.ts` owns EMI math, synthetic loan comparisons, approval-readiness, timelines, and education unlocks. UI components consume engine output and do not invent risk results.
+The app keeps business logic separate from the UI. `src/lib/creditEngine.ts` owns the typed credit rules, factor breakdown, recommendations, and 30-day plan generation. `src/lib/lendingEngine.ts` owns EMI math, synthetic loan comparisons, approval-readiness, timelines, and education unlocks. `src/lib/financialSnapshot.ts` owns local snapshot validation, storage helpers, and conversion into the existing profile types. UI components consume engine output and do not invent risk results.
 
 ## Rules Engine Methodology
 
@@ -182,6 +189,14 @@ Calculator Hub rules:
 - Payment burden compares modeled payment with synthetic monthly income
 - Credit limit impact assumes the balance stays fixed and explains that lender behavior may involve inquiry risk
 
+Financial Snapshot rules:
+
+- Snapshot onboarding is optional; the Maya synthetic profile remains the fallback
+- Snapshot data is stored only in browser localStorage
+- Inputs are limited to nickname, rounded monthly income estimate, monthly debt obligations, card balance, card limit, recent inquiries, missed-payment range, oldest account age, and primary goal
+- Snapshot values convert into the same typed profile shapes used by the deterministic engines
+- Invalid or missing snapshots are ignored and the Maya demo profile is used
+
 The app intentionally avoids exact score-point estimates. Results are directional: Helps, Neutral, Slight risk, Significant risk, or simulated approval-readiness labels.
 
 ## Privacy and Compliance Notes
@@ -189,6 +204,7 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 - Educational prototype, not financial advice
 - Does not calculate official credit scores
 - Uses synthetic demo data only
+- Optional Financial Snapshot data is stored only in the user's browser
 - Uses synthetic lending offers only
 - Approval-readiness is not approval or denial
 - No real loan applications
@@ -199,8 +215,12 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 - No real bank credentials
 - No real credit bureau data
 - No real income verification
+- No full dates of birth
+- No account numbers
+- No document uploads
+- No lender application data
 - No external paid APIs
-- Checklist progress is stored only in browser localStorage
+- Checklist progress and optional snapshots are stored only in browser localStorage
 
 ## Future Roadmap
 
@@ -215,6 +235,7 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 ## Known Prototype Boundaries
 
 - Single synthetic profile
+- Optional local snapshot personalization, with no backend sync
 - Deterministic model only, with no real underwriting or bureau data
 - No authentication
 - No production persistence beyond localStorage

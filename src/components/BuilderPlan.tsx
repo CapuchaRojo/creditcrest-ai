@@ -5,12 +5,19 @@ import { Check, Circle, Target } from "lucide-react";
 
 import {
   creditFactorLabels,
-  type ThirtyDayPlanWeek,
+  generateThirtyDayPlan,
+  type CreditProfile,
 } from "@/lib/creditEngine";
+import { useFinancialSnapshotProfile } from "@/lib/useFinancialSnapshot";
 
 const storageKey = "creditcrest:plan-progress";
 
-export function BuilderPlan({ plan }: { plan: ThirtyDayPlanWeek[] }) {
+export function BuilderPlan({ profile }: { profile: CreditProfile }) {
+  const activeProfile = useFinancialSnapshotProfile(profile);
+  const plan = useMemo(
+    () => generateThirtyDayPlan(activeProfile),
+    [activeProfile],
+  );
   const [completed, setCompleted] = useState<Record<string, boolean>>(() => {
     if (typeof window === "undefined") {
       return {};
@@ -48,8 +55,9 @@ export function BuilderPlan({ plan }: { plan: ThirtyDayPlanWeek[] }) {
           30-day builder plan
         </h2>
         <p className="mt-3 text-sm leading-6 text-slate-600">
-          A short, practical path for Maya: lower visible utilization, protect
-          payments, pause new applications, then review the file.
+          A short, practical path for {activeProfile.name}: lower visible
+          utilization, protect payments, pause new applications, then review the
+          file.
         </p>
         <div className="mt-6">
           <div className="flex items-center justify-between text-sm font-bold">

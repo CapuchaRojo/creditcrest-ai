@@ -35,6 +35,7 @@ export interface SyntheticLoanOffer {
 
 export interface LendingProfile extends CreditProfile {
   estimatedMonthlyIncome: number;
+  monthlyDebtObligations?: number;
 }
 
 export interface LoanSimulationInput {
@@ -421,6 +422,21 @@ export function calculateApprovalReadiness(
     strengths.push("Estimated monthly payment is under 5% of synthetic income.");
   }
 
+  const existingDebtBurden = calculatePaymentBurden(
+    profile.monthlyDebtObligations ?? 0,
+    profile.estimatedMonthlyIncome,
+  );
+
+  if (existingDebtBurden > 20) {
+    score -= 12;
+    reasons.push("Existing monthly debt obligations are already elevated.");
+  } else if (existingDebtBurden > 10) {
+    score -= 6;
+    reasons.push("Existing monthly debt obligations add budget caution.");
+  } else if ((profile.monthlyDebtObligations ?? 0) > 0) {
+    strengths.push("Existing monthly debt obligations stay modest in the model.");
+  }
+
   if (offer.hardInquiry) {
     score -= 8;
     reasons.push("A hard inquiry may add new-credit pressure.");
@@ -614,7 +630,7 @@ function generateLoanExplanation(
   );
 
   if (offer.annualApr >= 30) {
-    return `${offer.name} is modeled as a high-cost short-term option. The monthly payment is ${result.paymentBurdenPercent}% of Maya's synthetic monthly income, and the APR increases total repayment pressure.`;
+    return `${offer.name} is modeled as a high-cost short-term option. The monthly payment is ${result.paymentBurdenPercent}% of ${profile.name}'s synthetic monthly income, and the APR increases total repayment pressure.`;
   }
 
   if (offer.requiresDeposit) {
@@ -625,7 +641,7 @@ function generateLoanExplanation(
     return `${offer.name} keeps borrowing cost low with 0% APR and no modeled inquiry, but missed payments would still create payment-history risk.`;
   }
 
-  return `${offer.name} creates a simulated monthly payment while Maya already has ${Math.round(utilization)}% utilization and one recent inquiry, so readiness depends on payment burden and new-credit pressure.`;
+  return `${offer.name} creates a simulated monthly payment while ${profile.name} already has ${Math.round(utilization)}% utilization and ${profile.recentInquiries} recent inquiry, so readiness depends on payment burden and new-credit pressure.`;
 }
 
 function generateLoanAlternative(
