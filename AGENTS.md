@@ -1,6 +1,6 @@
 # CreditCrest AI Agent Notes
 
-CreditCrest AI is a Next.js App Router hackathon MVP. Keep the product privacy-first, deterministic, and educational.
+CreditCrest AI is a Next.js App Router educational prototype. Keep the product privacy-first, deterministic, and educational.
 
 ## Project Rules
 

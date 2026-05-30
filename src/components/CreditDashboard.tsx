@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
+  BookOpen,
   ClipboardCheck,
   FileText,
   FlaskConical,
@@ -39,7 +40,7 @@ export function CreditDashboard({
         <div className="flex flex-col justify-center">
           <div className="inline-flex w-fit items-center gap-2 rounded-md border border-emerald-200 bg-white px-3 py-1 text-xs font-bold text-emerald-800 shadow-sm">
             <PlayCircle className="h-4 w-4" aria-hidden="true" />
-            2-Minute Judge Demo
+            Guided Learning Mode
           </div>
           <h1 className="mt-5 max-w-3xl text-4xl font-black text-[#06130f] sm:text-5xl">
             CreditCrest AI
@@ -48,9 +49,10 @@ export function CreditDashboard({
             Know the credit impact before you make the move.
           </p>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-            Most credit apps tell you what already happened. CreditCrest AI
-            helps users understand likely credit consequences before they act,
-            using transparent educational rules instead of official score claims.
+            CreditCrest AI is a consumer credit simulator that helps people
+            explore borrowing and credit-building tradeoffs before they act,
+            using transparent educational rules instead of official score
+            predictions.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -120,11 +122,11 @@ export function CreditDashboard({
           <div className="text-white">
             <div className="flex items-center gap-2 text-sm font-bold text-emerald-200">
               <Gauge className="h-4 w-4" aria-hidden="true" />
-              2-Minute Judge Demo
+              Quick Start Journey
             </div>
             <p className="mt-2 text-sm leading-6 text-emerald-50">
-              Four taps show the problem, safer action, plan, and transparent
-              rules.
+              A guided demo through credit impact, safer action, planning, and
+              transparent rules.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -159,6 +161,33 @@ export function CreditDashboard({
               icon={FileText}
             />
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-4">
+          <p className="text-sm font-bold uppercase text-emerald-700">
+            CreditCrest ecosystem
+          </p>
+          <h2 className="mt-1 text-2xl font-black text-[#06130f]">
+            Learn first. Simulate the lending journey next.
+          </h2>
+        </div>
+        <div className="grid gap-3 lg:grid-cols-2">
+          <EcosystemCard
+            icon={BookOpen}
+            title="CreditCrest AI"
+            body="Teaches and simulates consumer credit decisions with synthetic data, directional impact labels, and deterministic rules."
+            href="/simulator"
+            action="Open credit simulator"
+          />
+          <EcosystemCard
+            icon={FlaskConical}
+            title="CrestLend"
+            body="Handles the simulated lending journey inside Lending Lab: synthetic offers, EMI modeling, approval-readiness, and borrower timelines."
+            href="/lending-lab"
+            action="Open CrestLend journey"
+          />
         </div>
       </section>
 
@@ -201,6 +230,44 @@ export function CreditDashboard({
         </div>
       </section>
     </main>
+  );
+}
+
+function EcosystemCard({
+  icon: Icon,
+  title,
+  body,
+  href,
+  action,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  body: string;
+  href: string;
+  action: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group rounded-lg border border-[#dce5dd] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+    >
+      <div className="flex items-start gap-4">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-[#eaf7ef] text-emerald-700">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </div>
+        <div>
+          <h3 className="text-lg font-black text-[#06130f]">{title}</h3>
+          <p className="mt-2 text-sm leading-6 text-slate-600">{body}</p>
+          <div className="mt-4 inline-flex items-center gap-2 text-sm font-black text-emerald-800">
+            {action}
+            <ArrowRight
+              className="h-4 w-4 transition group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 }
 

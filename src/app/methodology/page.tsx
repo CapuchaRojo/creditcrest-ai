@@ -18,12 +18,13 @@ export default function MethodologyPage() {
           About / Compliance / Methodology
         </p>
         <h1 className="mt-2 text-3xl font-black text-[#06130f] sm:text-4xl">
-          Educational rules, synthetic data, privacy-first demo.
+          Educational rules, synthetic data, privacy-first simulation.
         </h1>
         <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-          CreditCrest AI is a hackathon MVP. It is not financial advice, does
-          not calculate an official credit score, and does not connect to credit
-          bureaus, banks, payroll systems, or real financial accounts.
+          CreditCrest AI is an educational prototype. It is not financial
+          advice, does not calculate an official credit score, and does not
+          connect to credit bureaus, banks, payroll systems, or real financial
+          accounts.
         </p>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -40,7 +41,7 @@ export default function MethodologyPage() {
           <Principle
             icon={LockKeyhole}
             title="No sensitive identifiers"
-            body="The MVP never asks for SSNs, bank credentials, credit bureau logins, or real card numbers."
+            body="The app never asks for SSNs, bank credentials, credit bureau logins, or real card numbers."
           />
         </div>
 

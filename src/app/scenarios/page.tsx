@@ -15,7 +15,7 @@ export default function ScenariosPage() {
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
               Each scenario opens the simulator with deterministic inputs and a
-              plain-English result for the Devpost demo path.
+              plain-English result for the guided demo path.
             </p>
           </div>
         </div>

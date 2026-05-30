@@ -6,7 +6,7 @@
 
 **Know the credit impact before you make the move.**
 
-CreditCrest AI is a hackathon MVP for CodeCrest: a real-time credit decision coach that helps early credit builders understand how purchases, payments, applications, financing, utilization changes, missed payments, and synthetic borrowing paths may affect their credit-building behavior.
+CreditCrest AI is a production-oriented educational prototype: a consumer credit simulator that helps early credit builders understand how purchases, payments, applications, financing, utilization changes, missed payments, and synthetic borrowing paths may affect their credit-building behavior.
 
 It does **not** calculate an official credit score and does **not** provide financial advice. It uses synthetic demo data and deterministic educational rules.
 
@@ -16,7 +16,7 @@ Most credit apps explain what already happened after a statement closes, an inqu
 
 ## Solution
 
-CreditCrest AI gives users a fast simulator that models the likely directional credit impact of a decision before they act. The MVP focuses on Maya, a synthetic 22-year-old student profile with 49% utilization, one recent inquiry, a young credit file, one late payment from 10 months ago, and synthetic monthly income of $2,400 for lending simulations.
+CreditCrest AI gives users a fast simulator that models the likely directional credit impact of a decision before they act. The guided demo focuses on Maya, a synthetic 22-year-old student profile with 49% utilization, one recent inquiry, a young credit file, one late payment from 10 months ago, and synthetic monthly income of $2,400 for lending simulations.
 
 ## Features
 
@@ -35,6 +35,12 @@ CreditCrest AI gives users a fast simulator that models the likely directional c
 - About / compliance / methodology page
 - Clear educational disclaimers and no sensitive-data collection
 - Unit tests for the credit and lending rules engines
+
+## Product Ecosystem
+
+- **CreditCrest AI** teaches and simulates consumer credit decisions with synthetic data, directional impact labels, and deterministic rules.
+- **CrestLend** handles the simulated lending journey inside Lending Lab: synthetic offers, EMI modeling, approval-readiness, and borrower timelines.
+- CrestLend app surface: [Open Lending Lab](https://creditcrest-ai.vercel.app/lending-lab).
 
 ## Tech Stack
 
@@ -81,7 +87,7 @@ npm test
 npm run build
 ```
 
-## Demo Script for Devpost
+## Guided Demo Script
 
 1. Open dashboard for Maya.
 2. Show 49% utilization.
@@ -180,7 +186,7 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 
 ## Privacy and Compliance Notes
 
-- Educational MVP, not financial advice
+- Educational prototype, not financial advice
 - Does not calculate official credit scores
 - Uses synthetic demo data only
 - Uses synthetic lending offers only
@@ -206,7 +212,7 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 - Merchant checkout plugin
 - Multilingual financial literacy
 
-## Known MVP Boundaries
+## Known Prototype Boundaries
 
 - Single synthetic profile
 - Deterministic model only, with no real underwriting or bureau data

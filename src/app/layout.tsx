@@ -48,7 +48,7 @@ export default function RootLayout({
         {children}
         <footer className="border-t border-[#dce5dd] bg-white">
           <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-5 text-slate-600 sm:px-6 lg:px-8">
-            CreditCrest AI is an educational hackathon MVP using synthetic demo
+            CreditCrest AI is an educational prototype using synthetic demo
             data. It is not financial advice and does not calculate official
             credit scores.
           </div>
