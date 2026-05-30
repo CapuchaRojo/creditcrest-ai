@@ -224,3 +224,19 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 ## License
 
 MIT
+
+## Screenshots ##
+
+<img width="2820" height="3548" alt="Screenshot_30-5-2026_173339_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/58ea6e23-1a4b-465b-9c84-0e644f904871" />
+
+<img width="2820" height="3158" alt="Screenshot_30-5-2026_173358_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/a9858463-9eba-48dc-bb8b-29319779b98e" />
+
+<img width="2820" height="4845" alt="Screenshot_30-5-2026_173419_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/358ce65b-c4a5-4a45-a3d9-a4e3e1dafe11" />
+
+<img width="2820" height="3715" alt="Screenshot_30-5-2026_173436_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/88b1676e-4cc8-4ee5-97d5-4a5830095ac0" />
+
+<img width="2820" height="3019" alt="Screenshot_30-5-2026_173447_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/d6f9a08a-7a47-451b-aa0d-3943bb37ca05" />
+
+<img width="2820" height="1968" alt="Screenshot_30-5-2026_17351_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/144eeb35-a2cc-4037-8305-141087d6ef8f" />
+
+<img width="2820" height="4957" alt="Screenshot_30-5-2026_173511_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/77ea6e80-1624-4b8e-9bcf-a9ac237a7f2f" />
