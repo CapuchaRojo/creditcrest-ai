@@ -47,10 +47,14 @@ export function ScenarioCard({
 }) {
   const impact = simulateScenario(profile, scenario);
   const Icon = scenarioIcons[scenario.type];
+  const isLendingScenario = scenario.id === "finance-phone";
+  const href = isLendingScenario
+    ? "/lending-lab"
+    : `/simulator?scenario=${scenario.id}`;
 
   return (
     <Link
-      href={`/simulator?scenario=${scenario.id}`}
+      href={href}
       className="group relative block min-h-[210px] overflow-hidden rounded-lg border border-[#dce5dd] bg-white p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
     >
       <div
@@ -65,6 +69,11 @@ export function ScenarioCard({
       <h3 className="mt-4 text-base font-black text-[#06130f]">
         {scenario.title}
       </h3>
+      {isLendingScenario ? (
+        <p className="mt-2 text-sm leading-5 text-slate-600">
+          Opens Lending Lab for EMI, APR, and synthetic loan-path comparison.
+        </p>
+      ) : null}
       <div className="mt-3 flex flex-wrap gap-2">
         <DirectionBadge direction={impact.impactDirection} />
       </div>
@@ -78,7 +87,7 @@ export function ScenarioCard({
         </p>
       </div>
       <div className="mt-4 flex items-center justify-between rounded-md bg-[#06130f] px-3 py-2 text-sm font-bold text-white">
-        <span>Simulate</span>
+        <span>{isLendingScenario ? "Open Lending Lab" : "Simulate"}</span>
         <ArrowRight
           className="h-4 w-4 transition group-hover:translate-x-1"
           aria-hidden="true"

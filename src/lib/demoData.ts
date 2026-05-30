@@ -1,4 +1,5 @@
 import type { CreditProfile, CreditScenario } from "@/lib/creditEngine";
+import type { LendingProfile, SyntheticLoanOffer } from "@/lib/lendingEngine";
 
 export const mayaProfile: CreditProfile = {
   id: "maya",
@@ -16,6 +17,59 @@ export const mayaProfile: CreditProfile = {
   },
   creditMix: ["Credit card"],
 };
+
+export const mayaLendingProfile: LendingProfile = {
+  ...mayaProfile,
+  estimatedMonthlyIncome: 2400,
+};
+
+export const syntheticLoanOffers: SyntheticLoanOffer[] = [
+  {
+    id: "crest-starter",
+    name: "Crest Starter",
+    purpose: "Laptop or phone financing",
+    principal: 800,
+    annualApr: 18,
+    termMonths: 12,
+    hardInquiry: true,
+    newAccount: true,
+    positioning: "Balanced starter installment option",
+  },
+  {
+    id: "crest-builder-secured",
+    name: "Crest Builder Secured",
+    purpose: "Credit-builder loan",
+    principal: 500,
+    annualApr: 9,
+    termMonths: 12,
+    hardInquiry: false,
+    newAccount: true,
+    requiresDeposit: true,
+    positioning: "Lower-risk education-first builder path",
+  },
+  {
+    id: "crest-fastcash",
+    name: "Crest FastCash",
+    purpose: "Emergency cash",
+    principal: 800,
+    annualApr: 36,
+    termMonths: 6,
+    hardInquiry: true,
+    newAccount: true,
+    positioning: "High-cost short-term option",
+  },
+  {
+    id: "crest-flex-plan",
+    name: "Crest Flex Plan",
+    purpose: "Purchase split plan",
+    principal: 600,
+    annualApr: 0,
+    termMonths: 4,
+    hardInquiry: false,
+    newAccount: false,
+    positioning: "Lower cost path that still requires payment discipline",
+  },
+];
 
 export const prebuiltScenarios: CreditScenario[] = [
   {
@@ -73,7 +127,8 @@ export const prebuiltScenarios: CreditScenario[] = [
     newApplication: true,
     currentBalance: mayaProfile.currentBalance,
     creditLimit: mayaProfile.creditLimit,
-    description: "Maya considers financing a phone through a new account.",
+    description:
+      "Maya considers financing a phone. Lending Lab compares synthetic EMI, APR, and approval-readiness paths.",
   },
 ];
 

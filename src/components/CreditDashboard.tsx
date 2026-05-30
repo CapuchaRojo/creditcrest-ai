@@ -4,6 +4,7 @@ import {
   BadgeCheck,
   ClipboardCheck,
   FileText,
+  FlaskConical,
   Gauge,
   PlayCircle,
 } from "lucide-react";
@@ -64,6 +65,13 @@ export function CreditDashboard({
               className="inline-flex items-center justify-center gap-2 rounded-md border border-[#cbd8ce] bg-white px-4 py-3 text-sm font-bold text-[#06130f] shadow-sm transition hover:border-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
             >
               Open 30-Day Plan
+            </Link>
+            <Link
+              href="/lending-lab"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-900 shadow-sm transition hover:border-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            >
+              <FlaskConical className="h-4 w-4" aria-hidden="true" />
+              Open Lending Lab
             </Link>
           </div>
         </div>

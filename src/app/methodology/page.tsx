@@ -94,6 +94,81 @@ export default function MethodologyPage() {
             ))}
           </div>
         </section>
+
+        <section className="mt-8 rounded-lg border border-[#dce5dd] bg-white p-5 shadow-sm">
+          <h2 className="text-2xl font-black text-[#06130f]">
+            Lending Lab methodology
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Lending Lab is a simulated borrowing experience. It compares
+            educational lending paths before signing anything, without acting as
+            a lender, broker, marketplace, or credit bureau.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Rule
+              label="Synthetic offers only"
+              value="Crest Starter, Builder Secured, FastCash, and Flex Plan are demo examples, not real lender offers."
+            />
+            <Rule
+              label="EMI estimates"
+              value="Monthly payment, APR, interest, and total repayment are educational calculations."
+            />
+            <Rule
+              label="Approval-readiness"
+              value="Readiness is not approval or denial. It is a directional label from explicit rules."
+            />
+            <Rule
+              label="No sensitive collection"
+              value="The app does not ask for SSNs, bank credentials, credit bureau logins, or real income verification."
+            />
+            <Rule
+              label="No lender matching"
+              value="No real application is submitted and no provider receives user data."
+            />
+            <Rule
+              label="Deterministic results"
+              value="Loan outcomes come from TypeScript rules, not official score prediction or hidden underwriting."
+            />
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-lg border border-[#dce5dd] bg-white p-5 shadow-sm">
+          <h2 className="text-2xl font-black text-[#06130f]">
+            Calculator Hub methodology
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Calculator Hub keeps calculations scoped to credit, lending,
+            financing, and educational borrowing decisions. Inputs default to
+            Maya&apos;s synthetic profile and should not be treated as real
+            financial applications.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Rule
+              label="EMI / monthly payment"
+              value="Uses principal minus down payment, APR, and term to estimate monthly payment, total repayment, and total interest."
+            />
+            <Rule
+              label="Utilization paydown"
+              value="Calculates the paydown needed to reach 30%, 10%, or a custom educational utilization target."
+            />
+            <Rule
+              label="APR comparison"
+              value="Compares synthetic offers by monthly payment, total repayment, and total interest."
+            />
+            <Rule
+              label="Payment burden"
+              value="Compares a modeled payment with synthetic monthly income and classifies burden risk."
+            />
+            <Rule
+              label="Credit limit impact"
+              value="Shows before/after utilization if balance stays fixed and explains possible inquiry risk."
+            />
+            <Rule
+              label="No sensitive data"
+              value="The hub does not collect SSNs, real income verification, bank credentials, or credit bureau logins."
+            />
+          </div>
+        </section>
       </section>
     </main>
   );

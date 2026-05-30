@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  Calculator,
   ClipboardList,
+  FlaskConical,
   Home,
   ShieldCheck,
   SlidersHorizontal,
@@ -35,6 +37,8 @@ export default function RootLayout({
             </Link>
             <div className="hidden min-w-0 items-center gap-1 overflow-x-auto rounded-md border border-[#dce5dd] bg-[#f8faf8] p-1 sm:flex">
               <NavLink href="/simulator">Simulator</NavLink>
+              <NavLink href="/lending-lab">Lending Lab</NavLink>
+              <NavLink href="/calculator-hub">Calculators</NavLink>
               <NavLink href="/plan">Plan</NavLink>
               <NavLink href="/scenarios">Scenarios</NavLink>
               <NavLink href="/methodology">Methodology</NavLink>
@@ -53,12 +57,18 @@ export default function RootLayout({
           aria-label="Primary"
           className="fixed inset-x-0 bottom-0 z-40 border-t border-[#dce5dd] bg-white px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-10px_30px_rgba(6,19,15,0.08)] sm:hidden"
         >
-          <div className="mx-auto grid max-w-md grid-cols-4 gap-1">
+          <div className="mx-auto grid max-w-md grid-cols-6 gap-1">
             <MobileNavLink href="/" icon={Home} label="Home" />
             <MobileNavLink
               href="/simulator?scenario=buy-laptop"
               icon={SlidersHorizontal}
               label="Sim"
+            />
+            <MobileNavLink href="/lending-lab" icon={FlaskConical} label="Lab" />
+            <MobileNavLink
+              href="/calculator-hub"
+              icon={Calculator}
+              label="Calc"
             />
             <MobileNavLink href="/plan" icon={ClipboardList} label="Plan" />
             <MobileNavLink href="/methodology" icon={ShieldCheck} label="Rules" />
