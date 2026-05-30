@@ -1,5 +1,9 @@
 # CreditCrest AI
 
+## Live Demo
+
+[Launch CreditCrest AI](https://creditcrest-ai.vercel.app/)
+
 **Know the credit impact before you make the move.**
 
 CreditCrest AI is a hackathon MVP for CodeCrest: a real-time credit decision coach that helps early credit builders understand how purchases, payments, applications, financing, utilization changes, and missed payments may affect their credit-building path.
