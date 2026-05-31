@@ -1,4 +1,3 @@
-<img width="2820" height="3504" alt="Screenshot_31-5-2026_10013_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/6f3a6698-3c00-4996-8a2f-53b15110e326" />
 # CreditCrest AI
 
 ## Live Demo
