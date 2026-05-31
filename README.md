@@ -63,6 +63,11 @@ CreditCrest AI gives users a fast simulator that models the likely directional c
 - Passed lint, typecheck, tests, and production build
 - Deployed on Vercel: [creditcrest-ai.vercel.app](https://creditcrest-ai.vercel.app/)
 
+## Public Pages
+
+- [Privacy](https://creditcrest-ai.vercel.app/privacy)
+- [Disclaimer](https://creditcrest-ai.vercel.app/disclaimer)
+
 ## Production Readiness Docs
 
 - [Privacy Policy Draft](docs/PRIVACY_POLICY_DRAFT.md)
@@ -266,16 +271,18 @@ MIT
 
 ## Screenshots ##
 
-<img width="2820" height="3548" alt="Screenshot_30-5-2026_173339_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/58ea6e23-1a4b-465b-9c84-0e644f904871" />
+<img width="2820" height="3158" alt="Screenshot_31-5-2026_9307_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/89185e81-9b79-4e6e-95a4-e9d4aba6f5c6" />
 
-<img width="2820" height="3158" alt="Screenshot_30-5-2026_173358_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/a9858463-9eba-48dc-bb8b-29319779b98e" />
+<img width="2820" height="4845" alt="Screenshot_31-5-2026_93019_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/741f378a-3985-4ec7-a260-de548313c31b" />
 
-<img width="2820" height="4845" alt="Screenshot_30-5-2026_173419_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/358ce65b-c4a5-4a45-a3d9-a4e3e1dafe11" />
+<img width="2820" height="3715" alt="Screenshot_31-5-2026_93033_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/479943fc-1e99-4833-abee-29bb1d6f50dd" />
 
-<img width="2820" height="3715" alt="Screenshot_30-5-2026_173436_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/88b1676e-4cc8-4ee5-97d5-4a5830095ac0" />
+<img width="2820" height="2325" alt="Screenshot_31-5-2026_93050_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/67a972cc-b8f1-4f1f-904b-fd38064bde29" />
 
-<img width="2820" height="3019" alt="Screenshot_30-5-2026_173447_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/d6f9a08a-7a47-451b-aa0d-3943bb37ca05" />
+<img width="2820" height="3019" alt="Screenshot_31-5-2026_9311_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/08f98785-7513-41f7-8706-e6eec50fc2ea" />
 
-<img width="2820" height="1968" alt="Screenshot_30-5-2026_17351_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/144eeb35-a2cc-4037-8305-141087d6ef8f" />
+<img width="2820" height="1968" alt="Screenshot_31-5-2026_93121_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/b932bf3b-4bf2-4586-9e0e-9057c5ebe895" />
 
-<img width="2820" height="4957" alt="Screenshot_30-5-2026_173511_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/77ea6e80-1624-4b8e-9bcf-a9ac237a7f2f" />
+<img width="2820" height="5971" alt="Screenshot_31-5-2026_93132_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/16624f59-e43c-46c3-a163-af7dfe759834" />
+
+<img width="2820" height="3593" alt="Screenshot_31-5-2026_92939_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/b72558ae-185f-4d6e-b191-5337b6c942fd" />
