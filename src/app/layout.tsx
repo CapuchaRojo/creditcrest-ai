@@ -48,10 +48,38 @@ export default function RootLayout({
         </header>
         {children}
         <footer className="border-t border-[#dce5dd] bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-5 text-slate-600 sm:px-6 lg:px-8">
-            CreditCrest AI is an educational prototype using synthetic demo
-            data. It is not financial advice and does not calculate official
-            credit scores.
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 text-xs leading-5 text-slate-600 sm:px-6 lg:px-8">
+            <p>
+              CreditCrest AI is an educational prototype using synthetic demo
+              data. It is not financial advice and does not calculate official
+              credit scores.
+            </p>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 font-bold">
+              <Link
+                href="/privacy"
+                className="text-slate-700 transition hover:text-emerald-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              >
+                Privacy
+              </Link>
+              <Link
+                href="/disclaimer"
+                className="text-slate-700 transition hover:text-emerald-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              >
+                Disclaimer
+              </Link>
+              <a
+                href="https://github.com/CapuchaRojo/creditcrest-ai"
+                className="text-slate-700 transition hover:text-emerald-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              >
+                GitHub
+              </a>
+              <Link
+                href="/lending-lab"
+                className="text-slate-700 transition hover:text-emerald-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              >
+                CrestLend ecosystem
+              </Link>
+            </div>
           </div>
         </footer>
         <nav
