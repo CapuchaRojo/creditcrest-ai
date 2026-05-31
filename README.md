@@ -63,6 +63,24 @@ CreditCrest AI gives users a fast simulator that models the likely directional c
 - Passed lint, typecheck, tests, and production build
 - Deployed on Vercel: [creditcrest-ai.vercel.app](https://creditcrest-ai.vercel.app/)
 
+## Production Readiness Docs
+
+- [Privacy Policy Draft](docs/PRIVACY_POLICY_DRAFT.md)
+- [Disclaimer](docs/DISCLAIMER.md)
+- [Release Checklist](docs/RELEASE_CHECKLIST.md)
+- [Accessibility QA](docs/ACCESSIBILITY_QA.md)
+- [Mobile QA](docs/MOBILE_QA.md)
+- [Security Review](docs/SECURITY_REVIEW.md)
+
+## Production Readiness Docs
+
+- [Privacy Policy Draft](docs/PRIVACY_POLICY_DRAFT.md)
+- [Disclaimer](docs/DISCLAIMER.md)
+- [Release Checklist](docs/RELEASE_CHECKLIST.md)
+- [Accessibility QA](docs/ACCESSIBILITY_QA.md)
+- [Mobile QA](docs/MOBILE_QA.md)
+- [Security Review](docs/SECURITY_REVIEW.md)
+
 ## How To Run Locally
 
 Install dependencies:
