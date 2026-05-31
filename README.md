@@ -1,3 +1,4 @@
+<img width="2820" height="3504" alt="Screenshot_31-5-2026_10013_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/6f3a6698-3c00-4996-8a2f-53b15110e326" />
 # CreditCrest AI
 
 ## Live Demo
@@ -271,6 +272,10 @@ The app intentionally avoids exact score-point estimates. Results are directiona
 MIT
 
 ## Screenshots ##
+
+<img width="2820" height="2710" alt="Screenshot_31-5-2026_10053_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/4d36ed8f-6e4c-4a20-ae87-2ba34241bb6d" />
+
+![Uploading Screenshot_31-5-2026_10013_creditcrest-ai.vercel.app.jpeg…]()
 
 <img width="2820" height="3158" alt="Screenshot_31-5-2026_9307_creditcrest-ai vercel app" src="https://github.com/user-attachments/assets/89185e81-9b79-4e6e-95a4-e9d4aba6f5c6" />
 
