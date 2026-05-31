@@ -71,15 +71,8 @@ CreditCrest AI gives users a fast simulator that models the likely directional c
 ## Production Readiness Docs
 
 - Public pages: [Privacy](https://creditcrest-ai.vercel.app/privacy) and [Disclaimer](https://creditcrest-ai.vercel.app/disclaimer)
-- [Privacy Policy Draft](docs/PRIVACY_POLICY_DRAFT.md)
-- [Disclaimer](docs/DISCLAIMER.md)
-- [Release Checklist](docs/RELEASE_CHECKLIST.md)
-- [Accessibility QA](docs/ACCESSIBILITY_QA.md)
-- [Mobile QA](docs/MOBILE_QA.md)
-- [Security Review](docs/SECURITY_REVIEW.md)
-
-## Production Readiness Docs
-
+- [CreditCrest Ecosystem Brand Kit](docs/CREDITCREST_ECOSYSTEM_BRAND_KIT.md)
+- [Supabase/Auth Architecture Proposal](docs/SUPABASE_AUTH_ARCHITECTURE_PROPOSAL.md)
 - [Privacy Policy Draft](docs/PRIVACY_POLICY_DRAFT.md)
 - [Disclaimer](docs/DISCLAIMER.md)
 - [Release Checklist](docs/RELEASE_CHECKLIST.md)
